@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarization</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #402fff, #00CED1);
+            color: #333333;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .summary-box {
+            margin-top: 20px;
+            background-color: #dff9fb;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #3498db;
+            font-size: x-large;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        #label{
+            font-size: x-large;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center  p-2 text-white rounded" style="--bs-bg-opacity: 0.5; background-color: #008080;" >Text Summarization</h1>
+        <form id="summarization-form">
+            <div class="form-group">
+                <label class="text-white" id="label" for="text">Enter Text:</label>
+                <textarea class="form-control " id="text" rows="10" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Summarize</button>
+        </form>
+        <div id="summary" class="summary-box alert alert-info" role="alert" style="display: none;">
+        </div>
+    </div>
+
+    <!-- Use the full version of jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#summarization-form').on('submit', function(e) {
+                e.preventDefault();
+                var text = $('#text').val();
+                $.ajax({
+                    url: '/summarize',
+                    type: 'POST',
+                    data: { text: text },
+                    success: function(response) {
+                        $('#summary').text(response.summary).show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
